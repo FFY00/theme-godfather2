@@ -8,6 +8,12 @@ function _is_git_dirty
   echo (command git status -s --ignore-submodules=dirty 2> /dev/null)
 end
 
+function _hostname
+  begin
+    hostname || cat /etc/hostname || echo '<local>'
+  end 2>/dev/null | cut -d . -f 1
+end
+
 # change color depending on the user.
 function _user_host
   if [ (id -u) = "0" ];
@@ -15,7 +21,7 @@ function _user_host
   else
     echo -n (set_color -o blue)
   end
-  echo -n (hostname|cut -d . -f 1)ˇ$USER (set color normal)
+  echo -n (_hostname)ˇ$USER (set color normal)
 end
 
 function fish_prompt
@@ -38,7 +44,7 @@ function fish_prompt
 
   # output the prompt, left to right:
   # display 'user@host:'
-  echo -n -s $green (whoami) $dark_green @ $green (hostname|cut -d . -f 1) ": "
+  echo -n -s $green (whoami) $dark_green @ $green (_hostname) ": "
 
   # display the current directory name:
   echo -n -s $cwd $normal
