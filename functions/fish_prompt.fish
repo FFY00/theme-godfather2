@@ -14,16 +14,6 @@ function _hostname
   end 2>/dev/null | cut -d . -f 1
 end
 
-# change color depending on the user.
-function _user_host
-  if [ (id -u) = "0" ];
-    echo -n (set_color -o red)
-  else
-    echo -n (set_color -o blue)
-  end
-  echo -n (_hostname)ˇ$USER (set color normal)
-end
-
 function fish_prompt
   set fish_greeting
   set -l last_status $status
